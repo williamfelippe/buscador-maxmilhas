@@ -9,6 +9,7 @@ const PrimaryButton = ({
     icon,
     isLink,
     isAnExternalLink,
+    secondary,
     buttonClassName,
     textClassName
 }) => {
@@ -74,6 +75,7 @@ PrimaryButton.defaultProps = {
     icon: null,
     isLink: false,
     isAnExternalLink: false,
+    secondary: false,
     buttonClassName: '',
     textClassName: ''
 }
@@ -87,6 +89,7 @@ PrimaryButton.propTypes = {
     icon: PropTypes.object,
     isLink: PropTypes.bool,
     isAnExternalLink: PropTypes.bool,
+    secondary: PropTypes.bool,
     buttonClassName: PropTypes.string,
     textClassName: PropTypes.string
 }
