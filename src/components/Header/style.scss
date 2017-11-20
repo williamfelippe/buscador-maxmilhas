@@ -1,0 +1,24 @@
+.bmmHeader {
+    display: flex;
+
+    .bmmHeader__logo {
+        display: flex;
+        align-self: center;
+        flex: 1;
+
+        background-color: red;
+    }
+
+    .bmmHeader__options {
+        display: none;
+
+        @media screen and (min-width: 480px) {
+            display: flex;
+            justify-content: flex-end;
+            align-self: center;
+            flex: 1;
+
+            background-color: yellow;
+        }
+    }
+}

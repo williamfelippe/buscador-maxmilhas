@@ -1,0 +1,17 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmFlightSort {
+    background-color: $color-gray;
+
+    border-top-left-radius: 2rem; 
+    border-top-right-radius: 2rem;
+
+    display: flex;
+
+    .hmmFlightSort__item {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-self: center;
+    }
+}
