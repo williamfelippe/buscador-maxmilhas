@@ -6,10 +6,13 @@ import {
 } from 'react-router-dom'
 import {
 	Home,
+	Search,
 	NoMatch
 } from './containers'
+import { DashboardRoute } from './components'
 import {
-	rootRoute
+	rootRoute,
+	searchRoute
 } from './strings/routes'
 
 class App extends Component {
@@ -27,7 +30,8 @@ class App extends Component {
 		return (
 			<Router>
 				<Switch>
-					<Route exact path={rootRoute} component={Home} />
+					<DashboardRoute exact path={rootRoute} component={Home} />
+					<DashboardRoute exact path={searchRoute} component={Search} />
 					<Route component={NoMatch} />
 				</Switch>
 			</Router>

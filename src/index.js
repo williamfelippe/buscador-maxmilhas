@@ -9,6 +9,7 @@ import promise from 'redux-promise'
 import reducers from './store'
 
 import axios from 'axios'
+import uuid from 'uuid'
 
 import App from './App'
 
@@ -16,6 +17,7 @@ import './assets/styles/index.css'
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 axios.defaults.headers.common['Authorization'] = process.env.REACT_APP_API_KEY
+axios.defaults.headers.common['X-Correlation-ID'] = uuid()
 
 let middleware = [promise, thunk]
 if (process.env.NODE_ENV !== 'production') {
