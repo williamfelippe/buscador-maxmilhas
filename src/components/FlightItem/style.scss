@@ -1,0 +1,40 @@
+@import '../../assets/styles/partials/_colors';
+
+.bmmFlightItem {
+    background-color: $color-white;
+    color: $color-gray;
+
+    display: flex;
+
+    .bmmFlightItem__cell {
+        flex: 1;
+        align-self: center;
+        text-align: center;
+
+        &.bmmFlightItem__cell--detail {
+            display: none;
+
+            @media screen and (min-width: 400px) {
+                display: flex;
+            }
+        }
+
+        .bmmFlightItem__cell__title {
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+
+            display: block;
+        }
+    }
+}
+
+.bmmFlightPromotion {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    @media screen and (min-width: 400px) {
+        flex-direction: row;
+    }
+}

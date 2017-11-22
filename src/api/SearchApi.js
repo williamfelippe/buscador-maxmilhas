@@ -2,7 +2,7 @@
  * 
  * @param {object} body 
  */
-export const createSearch = (body) =>
+export const postSearch = (body) =>
     axios.post(`/search`, body)
         .then(response => response.data)
 
@@ -11,7 +11,7 @@ export const createSearch = (body) =>
  * @param {string} searchId 
  * @param {object} body 
  */
-export const updateSearch = (searchId, body) =>
+export const patchSearch = (searchId, body) =>
     axios.patch(`/search/${searchId}`, body)
         .then(response => response.data)
 

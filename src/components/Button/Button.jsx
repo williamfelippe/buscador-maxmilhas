@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import './style.css'
 
-const PrimaryButton = ({
+const Button = ({
     text,
     to,
     icon,
@@ -71,7 +71,7 @@ const PrimaryButton = ({
     )
 }
 
-PrimaryButton.defaultProps = {
+Button.defaultProps = {
     icon: null,
     isLink: false,
     isAnExternalLink: false,
@@ -80,7 +80,7 @@ PrimaryButton.defaultProps = {
     textClassName: ''
 }
 
-PrimaryButton.propTypes = {
+Button.propTypes = {
     text: PropTypes.string.isRequired,
     to: PropTypes.oneOfType([
         PropTypes.string,
@@ -94,4 +94,4 @@ PrimaryButton.propTypes = {
     textClassName: PropTypes.string
 }
 
-export default PrimaryButton
+export default Button
