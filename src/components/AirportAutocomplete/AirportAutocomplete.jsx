@@ -17,9 +17,7 @@ class AirportAutocomplete extends Component {
     search() {
         const { searchText } = this.state
 
-        const airportsWhoMatch = Object.values(
-            airportsInformations.airports
-        ).filter(airport => {
+        const airportsWhoMatch = Object.values(airportsInformations.airports).filter(airport => {
             return airport[0].toLowerCase().indexOf(searchText) >= 0
         })
 
@@ -53,7 +51,7 @@ class AirportAutocomplete extends Component {
 
             return (
                 <li key={key}>
-                    <a onClick={this.onSelectAirport.bind(this, code, name)}>
+                    <a onClick={() => this.onSelectAirport(code, name)}>
                         {name}
                     </a>
                 </li>
@@ -65,7 +63,7 @@ class AirportAutocomplete extends Component {
                 <input
                     className=""
                     value={searchText}
-                    onChange={this.onChange.bind(this)} />
+                    onChange={(event) => this.onChange(event)} />
 
                 <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none' }}>
                     <ul className="">

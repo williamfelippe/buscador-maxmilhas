@@ -6,7 +6,7 @@ import {
 
 export const createSearch = (body) => {
     return dispatch => {
-        postScreateSearch(body).then(data => {
+        return postSearch(body).then(data => {
             console.log('CREATE SEARCH', data)
         })
     }

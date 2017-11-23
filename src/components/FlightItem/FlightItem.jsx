@@ -1,72 +1,75 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Grid, Row, Col } from 'react-flexbox-grid'
 import { Button } from '../'
 import './style.css'
 
 const FlightItem = ({ flight }) => {
-    
+
     const showFlightDetail = () => {
 
     }
 
     return (
-        <div>
-            <div>
-                <div>
-                    <p>
-                        <span>
-                            GOL
-                        </span>
-                        G3-1307
-                    </p>
-                </div>
+        <Grid fluid>
+            <Row>
+                <Col md={2}>
+                    <div>
+                        <p>
+                            <span>GOL</span>
+                            G3-1307
+                        </p>
+                    </div>
+                </Col>
 
-                <div>
+                <Col md={2}>
                     <p>
                         <span>
                             11:25
                         </span>
                         CNF (Confins)
                     </p>
-                </div>
+                </Col>
 
-                <div>
+                <Col md={2}>
                     <p>
                         <span>
                             3H10
                         </span>
                         1 parada
                     </p>
-                </div>
+                </Col>
 
-                <div>
+                <Col md={2}>
                     <p>
                         <span>
                             14:35
                         </span>
                         FLN
                     </p>
-                </div>
+                </Col>
 
-                <div>
-                    <Button 
+                <Col md={2}>
+                    <Button
                         to={showFlightDetail}
-                        text="Detalhes do voo" 
+                        text="Detalhes do voo"
                         secondary />
-                </div>
-            </div>
+                </Col>
 
-            <div>
-                <div>
-                    <span>
-                        GOL R$1279,31
-                    </span><br />
+                <Col md={2}>
+                    <div>
+                        <span>
+                            GOL R$1279,31
+                        </span><br />
 
-                    <Button text="R$268,40" /><br />
-                    Economize 44% na Maxmilhas
-                </div>
-            </div>
-        </div>
+                        <Button 
+                            text="R$268,40" 
+                            to={() => console.log('Quanta grana O.o')} /><br />
+                        Economize 44% na Maxmilhas
+                    </div>
+                </Col>
+            </Row>
+        </Grid>
     )
 }
 
