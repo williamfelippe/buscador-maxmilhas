@@ -29,8 +29,8 @@ export const getSearch = (searchId) =>
  * 
  * @param {string} searchId 
  */
-export const getFlights = (searchId) =>
-    axios.get(`/search/${searchId}/flights`)
+export const getFlights = (searchId, airlineLabel = null) =>
+    axios.get(`/search/${searchId}/flights${airlineLabel ? `?airline=${airlineLabel}` : ''}`)
         .then(response => response.data)
 
 /**

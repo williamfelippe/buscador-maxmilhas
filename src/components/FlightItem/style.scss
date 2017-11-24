@@ -2,22 +2,9 @@
 
 .bmmFlightItem {
     background-color: $color-white;
-    color: $color-gray;
-
-    display: flex;
 
     .bmmFlightItem__cell {
-        flex: 1;
-        align-self: center;
         text-align: center;
-
-        &.bmmFlightItem__cell--detail {
-            display: none;
-
-            @media screen and (min-width: 400px) {
-                display: flex;
-            }
-        }
 
         .bmmFlightItem__cell__title {
             font-weight: 700;

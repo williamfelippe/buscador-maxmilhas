@@ -6,8 +6,11 @@ import { search as searchActions } from '../../actions'
 
 class Home extends Component {
 
+    componentDidMount() {
+        this.searchFlights()
+    }
+
     searchFlights() {
-        console.log('BUSCANDO')
         const postData = {
             tripType: "RT",
             from: "REC",  //origem
@@ -33,6 +36,13 @@ class Home extends Component {
     }
 
     render() {
+
+        const { allIds, byId } = this.props
+        const flightsList = allIds.map((id) => {
+            const flight = byId[id]
+            return (flight) ? <FlightItem key={id} flight={flight} /> : null
+        })
+
         return (
             <Grid fluid>
                 <Row>
@@ -111,7 +121,10 @@ class Home extends Component {
 
                     <Col md={9}>
                         <FlightSort />
-                        <FlightItem flight={{ok: 'sucks'}} />
+
+                        <Grid fluid>
+                            {allIds.length > 0 && flightsList}
+                        </Grid>
                     </Col>
                 </Row>
             </Grid>
@@ -119,8 +132,9 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = () => ({
-
+const mapStateToProps = ({ inboundFlights, outboundFlights }) => ({
+    byId: inboundFlights.byId,
+    allIds: inboundFlights.allIds
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,4 +1,34 @@
-.bmmButton {
+@import '../../assets/styles/partials/_colors';
+
+.bmmButton {    
+    background-color: $color-primary;
+
+    border: none;
+    border-bottom: darken($color-primary, 10%) solid medium;
+    border-radius: 0.3rem;
+    outline: none;
+
+    font-weight: 900;
+    font-size: 1.3rem;
     color: #fff;
-    background-color: #4bb59a;
+
+    padding: 0.8rem 1.6rem;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken($color-primary, 5%);
+    }
+
+    &.bmmButton--secondary {
+        background-color: $color-transparent;
+        border: $color-gray solid thin;
+
+        color: $color-gray;
+        font-size: 1rem;
+        font-weight: 900;
+        text-transform: uppercase;
+
+        padding: 0.5rem 0.8rem;
+    }
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+import { Row, Col } from 'react-flexbox-grid'
 import { Button } from '../'
+import { getDuration, formatDate } from '../../utils/date'
 import './style.css'
 
 const FlightItem = ({ flight }) => {
@@ -10,71 +11,105 @@ const FlightItem = ({ flight }) => {
 
     }
 
+    const getPrice = (pricing, availableIn) => {
+        const { airline, miles } = pricing
+
+        let fareTotal
+        switch (availableIn) {
+            case "both":
+            case "airline":
+                fareTotal = airline.fareTotal
+                break
+
+            case "miles":
+            default:
+                fareTotal = miles.fareTotal
+                break
+        }
+
+        return `R$${fareTotal.toFixed(2)}`
+    }
+
+    const getStops = (stops) => {
+        if (stops > 0) {
+            return `${stops} ${stops === 1 ? 'parada' : 'paradas'}`
+        }
+
+        return 'Voo direto'
+    }
+
+    const {
+        airline,
+        flightNumber,
+        departureDate,
+        from,
+        duration,
+        arrivalDate,
+        pricing,
+        availableIn,
+        stops,
+        to
+    } = flight
+
     return (
-        <Grid fluid>
-            <Row>
-                <Col md={2}>
-                    <div>
-                        <p>
-                            <span>GOL</span>
-                            G3-1307
-                        </p>
-                    </div>
-                </Col>
+        <Row className="bmmFlightItem">
+            <Col md={2}>
+                <p className="bmmFlightItem__cell">
+                    <span className="bmmFlightItem__cell__title">
+                        {airline}
+                    </span>
+                    {flightNumber}
+                </p>
+            </Col>
 
-                <Col md={2}>
-                    <p>
-                        <span>
-                            11:25
-                        </span>
-                        CNF (Confins)
-                    </p>
-                </Col>
+            <Col md={2}>
+                <p className="bmmFlightItem__cell">
+                    <span className="bmmFlightItem__cell__title">
+                        {formatDate(departureDate)}
+                    </span>
+                    {from}
+                </p>
+            </Col>
 
-                <Col md={2}>
-                    <p>
-                        <span>
-                            3H10
-                        </span>
-                        1 parada
-                    </p>
-                </Col>
+            <Col md={2}>
+                <p className="bmmFlightItem__cell">
+                    <span className="bmmFlightItem__cell__title">
+                        {getDuration(duration)}
+                    </span>
+                    {getStops(stops)}
+                </p>
+            </Col>
 
-                <Col md={2}>
-                    <p>
-                        <span>
-                            14:35
-                        </span>
-                        FLN
-                    </p>
-                </Col>
+            <Col md={2}>
+                <p className="bmmFlightItem__cell">
+                    <span className="bmmFlightItem__cell__title">
+                        {formatDate(arrivalDate)}
+                    </span>
+                    {to}
+                </p>
+            </Col>
 
-                <Col md={2}>
-                    <Button
-                        to={showFlightDetail}
-                        text="Detalhes do voo"
-                        secondary />
-                </Col>
+            <Col md={2}>
+                <Button
+                    to={showFlightDetail}
+                    text="Detalhes do voo"
+                    secondary />
+            </Col>
 
-                <Col md={2}>
-                    <div>
-                        <span>
-                            GOL R$1279,31
-                        </span><br />
+            <Col md={2}>
+                <span>GOL R$1279,31</span>
 
-                        <Button 
-                            text="R$268,40" 
-                            to={() => console.log('Quanta grana O.o')} /><br />
-                        Economize 44% na Maxmilhas
-                    </div>
-                </Col>
-            </Row>
-        </Grid>
+                <Button
+                    text={`${getPrice(pricing, availableIn)}`}
+                    to={() => console.log('Quanta grana O.o')} /><br />
+                Economize 44% na Maxmilhas
+            </Col>
+        </Row>
     )
 }
 
 FlightItem.propTypes = {
-    flight: PropTypes.object.isRequired
+    flight: PropTypes.object
 }
 
 export default FlightItem

@@ -1,14 +1,26 @@
-import {
-    postSearch,
-    patchSearch,
-    getSearch
-} from '../api/SearchApi'
+import { postSearch, patchSearch, getSearch } from '../api/SearchApi'
+import { flights as flightsActions } from './'
 
 export const createSearch = (body) => {
     return dispatch => {
-        return postSearch(body).then(data => {
-            console.log('CREATE SEARCH', data)
-        })
+        return postSearch(body)
+            .then(data => {
+                console.log('CREATE SEARCH', data)
+
+                const { id, airlines } = data
+
+                if (airlines) {
+                    const { getFlightsData } = flightsActions
+                    airlines.map(({ label, status }) => {
+                        if(status.enable) {
+                            dispatch(getFlightsData(id, label))
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                throw error
+            })
     }
 }
 

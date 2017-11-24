@@ -28,7 +28,7 @@ const Button = ({
             <NavLink
                 exact
                 to={to}
-                className={buttonClassName}>
+                className={`bmmButton ${secondary ? 'bmmButton--secondary' : ''} ${buttonClassName}`}>
                 {renderButtonText()}
             </NavLink>
         )
@@ -40,7 +40,7 @@ const Button = ({
                 href={to}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={buttonClassName}>
+                className={`bmmButton ${secondary ? 'bmmButton--secondary' : ''} ${buttonClassName}`}>
                 {renderButtonText()}
             </a>
         )
@@ -50,7 +50,7 @@ const Button = ({
         return (
             <button
                 onClick={to}
-                className={buttonClassName}>
+                className={`bmmButton ${secondary ? 'bmmButton--secondary' : ''} ${buttonClassName}`}>
                 {renderButtonText()}
             </button>
         )
