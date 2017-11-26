@@ -5,6 +5,16 @@
     border-bottom: solid thin rgba($color-gray, 0.4);
 
     margin: 0 -1.6rem;
+    
     min-height: 6rem;
     align-items: center;
+
+    .hmmFlightSearch__buttonContainer {
+        display: flex;
+        justify-content: center;
+        
+        .hmmFlightSearch__buttonContainer__button {
+            max-width: 11.5rem;
+        }
+    }
 }

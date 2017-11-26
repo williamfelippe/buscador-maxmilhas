@@ -1,47 +1,49 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import './style.css'
 
-class FlightTabs extends Component {
+const FlightTabs = ({ status, selectFlight }) => {
 
-    constructor() {
-        super()
-        this.state = {
-            status: "inbound"
-        }
-    }
+    return (
+        <Row className="hmmFlightTabs">
+            <Col xs={6}>
+                <a onClick={() => this.selectFlight('inbound')}
+                    className={`hmmFlightTabs__item ${status === 'inbound'
+                        ? 'hmmFlightTabs__item--active'
+                        : ''} `
+                    }>
+                    <span className="hmmFlightTabs__item__smallText">
+                        Selecione sua ida
+                    </span>
 
-    selectFlight(status) {
-        this.setState({ status })
-    }
-
-    render() {
-        const { status } = this.state
-        
-        return (
-            <Row className="hmmFlightTabs">
-                <Col xs={6}>
-                    <a onClick={() => this.selectFlight('inbound')}
-                        className={`hmmFlightTabs__item ${status === 'inbound'
-                            ? 'hmmFlightTabs__item--active'
-                            : ''} `
-                        }>
+                    <span className="hmmFlightTabs__item__text">
                         Selecione seu voo de ida
-                    </a>
-                </Col>
+                    </span>
+                </a>
+            </Col>
 
-                <Col xs={6}>
-                    <a onClick={() => this.selectFlight('outbound')}
-                        className={`hmmFlightTabs__item ${status === 'outbound'
-                            ? 'hmmFlightTabs__item--active'
-                            : ''} `
-                        }>
+            <Col xs={6}>
+                <a onClick={() => this.selectFlight('outbound')}
+                    className={`hmmFlightTabs__item ${status === 'outbound'
+                        ? 'hmmFlightTabs__item--active'
+                        : ''} `
+                    }>
+                    <span className="hmmFlightTabs__item__smallText">
+                        Selecione sua volta
+                    </span>
+                    <span className="hmmFlightTabs__item__text">
                         Selecione seu voo de volta
-                    </a>
-                </Col>
-            </Row>
-        )
-    }
+                    </span>
+                </a>
+            </Col>
+        </Row>
+    )
+}
+
+FlightTabs.propTypes = {
+    status: PropTypes.string.isRequired,
+    selectFlight: PropTypes.func.isRequired
 }
 
 export default FlightTabs

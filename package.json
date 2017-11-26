@@ -8,7 +8,6 @@
 		"lodash": "^4.17.4",
 		"moment": "^2.19.2",
 		"prop-types": "^15.6.0",
-		"query-string": "^5.0.1",
 		"react": "^16.1.1",
 		"react-datetime": "^2.11.0",
 		"react-dom": "^16.1.1",

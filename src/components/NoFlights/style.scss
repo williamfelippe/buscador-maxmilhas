@@ -1,0 +1,30 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmNoFlights {
+    display: flex;
+    
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    font-size: 2rem;
+    text-align: center;
+
+    .hmmNoFlights__icon {
+        width: 7rem;
+        height: 7rem;
+
+        color: $color-primary;
+        display: block;
+    }
+
+    .hmmNoFlights__title {
+        font-weight: 700;
+        font-size: 4rem;
+
+        margin: 1rem 0 0;
+    }
+}

@@ -5,7 +5,7 @@ import axios from 'axios'
  * @param {object} body 
  */
 export const postSearch = (body) =>
-    axios.post(`/search`, body)
+    axios.post(`/search?time=${Date.now()}`, body)
         .then(response => response.data)
 
 /**

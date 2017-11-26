@@ -6,14 +6,10 @@ import {
 } from 'react-router-dom'
 import {
 	Home,
-	Search,
 	NoMatch
 } from './containers'
 import { DashboardRoute } from './components'
-import {
-	rootRoute,
-	searchRoute
-} from './strings/routes'
+import { rootRoute } from './strings/routes'
 
 class App extends Component {
 
@@ -30,8 +26,7 @@ class App extends Component {
 		return (
 			<Router>
 				<Switch>
-					<DashboardRoute exact path={rootRoute} component={Home} />
-					<DashboardRoute exact path={searchRoute} component={Search} />
+					<DashboardRoute path={`${rootRoute}/:filter?`} component={Home} />
 					<Route component={NoMatch} />
 				</Switch>
 			</Router>

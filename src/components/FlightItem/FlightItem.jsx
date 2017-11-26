@@ -1,36 +1,81 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-flexbox-grid'
 import { Button } from '../'
-import { getDuration, formatDate } from '../../utils/date'
+import { getDuration, formatTime } from '../../utils/date'
 import './style.css'
 
-const FlightItem = ({ flight }) => {
+class FlightItem extends Component {
 
-    const showFlightDetail = () => {
+    constructor(props) {
+        super(props)
+        this.state = {
+            hasPromotion: false
+        }
+    }
+
+    showFlightDetail() {
 
     }
 
-    const getPrice = (pricing, availableIn) => {
+    getPrice(pricing, availableIn) {
         const { airline, miles } = pricing
 
-        let fareTotal
+        let saleTotal
         switch (availableIn) {
             case "both":
+                saleTotal = Math.min(airline.saleTotal, miles.saleTotal)
+                break
+
             case "airline":
-                fareTotal = airline.fareTotal
+                saleTotal = airline.saleTotal
                 break
 
             case "miles":
             default:
-                fareTotal = miles.fareTotal
+                saleTotal = miles.saleTotal
                 break
         }
 
-        return `R$${fareTotal.toFixed(2)}`
+        return this.formatPrice(saleTotal)
     }
 
-    const getStops = (stops) => {
+    formatPrice(value) {
+        return `R$${value.toFixed(2)}`
+    }
+
+    calculatePercentageOfPromotion(milesTotal, airlineTotal) {
+        return ((milesTotal / airlineTotal) * 100) - 100
+    }
+
+    getPromotion(pricing, availableIn) {
+        const { airline, miles } = pricing
+
+        switch (availableIn) {
+            case "both":
+                const milesTotal = miles.saleTotal
+                const airlineTotal = airline.saleTotal
+                if (milesTotal < airlineTotal) {
+                    this.setState({ hasPromotion: true })
+                    return `Economize ${
+                        this.calculatePercentageOfPromotion(milesTotal, airlineTotal)
+                        }% na Maxmilhas`
+                }
+
+                return 'Mais econonia na cia aérea'
+
+            case "airline":
+                return 'Exclusivo na cia aérea'
+
+            case "miles":
+                return 'Exclusivo na Maxmilhas'
+
+            default:
+                return ''
+        }
+    }
+
+    getStops(stops) {
         if (stops > 0) {
             return `${stops} ${stops === 1 ? 'parada' : 'paradas'}`
         }
@@ -38,74 +83,88 @@ const FlightItem = ({ flight }) => {
         return 'Voo direto'
     }
 
-    const {
-        airline,
-        flightNumber,
-        departureDate,
-        from,
-        duration,
-        arrivalDate,
-        pricing,
-        availableIn,
-        stops,
-        to
-    } = flight
+    render() {
 
-    return (
-        <Row className="bmmFlightItem">
-            <Col md={2}>
-                <p className="bmmFlightItem__cell">
-                    <span className="bmmFlightItem__cell__title">
-                        {airline}
-                    </span>
-                    {flightNumber}
-                </p>
-            </Col>
+        const {
+            airline,
+            flightNumber,
+            departureDate,
+            from,
+            duration,
+            arrivalDate,
+            pricing,
+            availableIn,
+            stops,
+            to
+        } = this.props.flight
+        const {
+            hasPromotion
+        } = this.state
 
-            <Col md={2}>
-                <p className="bmmFlightItem__cell">
-                    <span className="bmmFlightItem__cell__title">
-                        {formatDate(departureDate)}
-                    </span>
-                    {from}
-                </p>
-            </Col>
+        return (
+            <Row middle="xs" className="bmmFlightItem">
+                <Col md={2}>
+                    <p className="bmmFlightItem__cell">
+                        <span className="bmmFlightItem__cell__title">
+                            {airline}
+                        </span>
+                        {flightNumber}
+                    </p>
+                </Col>
 
-            <Col md={2}>
-                <p className="bmmFlightItem__cell">
-                    <span className="bmmFlightItem__cell__title">
-                        {getDuration(duration)}
-                    </span>
-                    {getStops(stops)}
-                </p>
-            </Col>
+                <Col md={2}>
+                    <p className="bmmFlightItem__cell">
+                        <span className="bmmFlightItem__cell__title">
+                            {formatTime(departureDate)}
+                        </span>
+                        {from}
+                    </p>
+                </Col>
 
-            <Col md={2}>
-                <p className="bmmFlightItem__cell">
-                    <span className="bmmFlightItem__cell__title">
-                        {formatDate(arrivalDate)}
-                    </span>
-                    {to}
-                </p>
-            </Col>
+                <Col md={2}>
+                    <p className="bmmFlightItem__cell">
+                        <span className="bmmFlightItem__cell__title">
+                            {getDuration(duration)}
+                        </span>
+                        {this.getStops(stops)}
+                    </p>
+                </Col>
 
-            <Col md={2}>
-                <Button
-                    to={showFlightDetail}
-                    text="Detalhes do voo"
-                    secondary />
-            </Col>
+                <Col md={2}>
+                    <p className="bmmFlightItem__cell">
+                        <span className="bmmFlightItem__cell__title">
+                            {formatTime(arrivalDate)}
+                        </span>
+                        {to}
+                    </p>
+                </Col>
 
-            <Col md={2}>
-                <span>GOL R$1279,31</span>
+                <Col md={2}>
+                    <Button
+                        to={() => this.showFlightDetail()}
+                        text="Detalhes do voo"
+                        secondary />
+                </Col>
 
-                <Button
-                    text={`${getPrice(pricing, availableIn)}`}
-                    to={() => console.log('Quanta grana O.o')} /><br />
-                Economize 44% na Maxmilhas
-            </Col>
-        </Row>
-    )
+                <Col md={2}>
+                    <p className="bmmFlightItem__cell">
+                        <span className="bmmFlightItem__cell__worsePrice">
+                            {hasPromotion && `${airline} ${this.formatPrice(pricing.airline.saleTotal)}`}
+                        </span>
+
+                        <Button
+                            text={`${this.getPrice(pricing, availableIn)}`}
+                            to={() => this.showFlightDetail()} /><br />
+
+                        <span className={`bmmFlightItem__cell__promotion ${hasPromotion
+                            ? 'bmmFlightItem__cell__promotion--yellow' : ''}`}>
+                            {this.getPromotion()}
+                        </span>
+                    </p>
+                </Col>
+            </Row>
+        )
+    }
 }
 
 FlightItem.propTypes = {

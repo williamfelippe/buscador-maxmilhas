@@ -14,6 +14,17 @@ export const getDuration = (mins) => {
     return moment.utc().hours(h).minutes(m).format("h[H]mm")
 }
 
-export const formatDate = (date) => {
+export const formatTime = (date) => {
     return moment(date).format('hh:mm')
+}
+
+export const formatDate = (date, format = 'DD/MM/YYYY', parseFormat = null) => {
+    return (parseFormat) 
+        ? moment(date, parseFormat).format(format) 
+        : moment(date).format(format)
+}
+
+export const monthToString = (month) => {
+    const months = moment.months()
+    return months[month - 1]
 }

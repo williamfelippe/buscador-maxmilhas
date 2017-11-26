@@ -34,7 +34,7 @@ const FlightSort = () => {
 
                 <Col md={2}>
                     <div className="hmmFlightSort__item">
-                        <p>Detalhes</p>
+                        <span>Detalhes</span>
                         <Button 
                             buttonClassName="hmmFlightSort__item__button"
                             to={() => console.log('Veja as milhas O.o')}
@@ -47,8 +47,10 @@ const FlightSort = () => {
                     <a
                         className="hmmFlightSort__item"
                         onClick={() => sortBy('x', 'bolinha')}>
-                        <p>Preço</p>
-                        Por adulto (a incluir taxa)
+                        <span>Preço</span>
+                        <span className="hmmFlightSort__item__hint">
+                            Por adulto (a incluir taxa)
+                        </span>
                     </a>
                 </Col>
             </Row>

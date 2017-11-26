@@ -5,9 +5,10 @@
     align-items: center;
     text-align: center;
 
+    padding: 1rem 0;
+
     .hmmFlightSort__item {
         flex: 1;
-        font-family: 'Barlow', sans-serif;
         font-weight: 900;
         font-size: 1.3rem;
         color: $color-white;
@@ -16,5 +17,13 @@
     .hmmFlightSort__item__button {
         color: $color-white;
         border-color: $color-white;
+        font-size: 0.9rem;
+        margin-top: 0.7rem;
+    }
+
+    .hmmFlightSort__item__hint {
+        font-size: 1rem;
+        display: block;
+        margin-top: 0.7rem;
     }
 }

@@ -2,17 +2,34 @@
 
 .bmmFlightItem {
     background-color: $color-white;
+    margin: 0 0 1.3rem;
 
     .bmmFlightItem__cell {
         text-align: center;
+        font-size: 1.3rem;
 
         .bmmFlightItem__cell__title {
-            font-family: 'Barlow', sans-serif;
             font-weight: 900;
             font-size: 1.8rem;
             text-transform: uppercase;
 
             display: block;
+        }
+
+        .bmmFlightItem__cell__worsePrice {
+            text-decoration: line-through;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .bmmFlightItem__cell__promotion {
+            @extend .bmmFlightItem__cell__title;
+            font-weight: 400;
+
+            .bmmFlightItem__cell__promotion--yellow {
+                color: $color-yellow;
+                font-weight: 700;
+            }
         }
     }
 }

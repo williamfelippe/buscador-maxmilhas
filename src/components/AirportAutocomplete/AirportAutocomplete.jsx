@@ -13,7 +13,8 @@ class AirportAutocomplete extends Component {
         this.state = {
             airportsWhoMatch: [],
             searchText: '',
-            showInput: false
+            selectedAirport: [],
+            showInput: true
         }
     }
 
@@ -26,7 +27,7 @@ class AirportAutocomplete extends Component {
                 (airport.length > 0)
                     ? airport[0]
                         .toLowerCase()
-                        .indexOf(searchText) >= 0
+                        .indexOf(searchText.toLowerCase()) >= 0
                     : false
             )
         })
@@ -38,7 +39,7 @@ class AirportAutocomplete extends Component {
         const searchText = event.target.value
 
         this.setState({ searchText }, () => {
-            if (searchText.length > 3) {
+            if (searchText.length >= 4) {
                 debounce(this.search(searchText), 10)
             }
         })
@@ -48,7 +49,11 @@ class AirportAutocomplete extends Component {
         const { onSelect } = this.props
 
         this.setState({ searchText: name }, () => {
-            onSelect(airportsInformations.airports[airportCode])
+            const selectedAirport = airportsInformations.airports[airportCode]
+            this.setState({
+                selectedAirport,
+                showInput: false
+            }, () => onSelect(selectedAirport))
         })
     }
 
@@ -56,12 +61,26 @@ class AirportAutocomplete extends Component {
         this.setState({ showInput: true })
     }
 
+    formatAirportSelected(position) {
+        const { selectedAirport } = this.state
+        const name = selectedAirport[0]
+        const names = name.split('-')
+
+        if(names.length >= position) {
+            return names[position]
+        }
+
+        return ''
+    }
+
     render() {
-        const { 
-            searchText, 
-            airportsWhoMatch, 
-            showInput 
+        const {
+            searchText,
+            airportsWhoMatch,
+            showInput,
+            selectedAirport
         } = this.state
+
         const { label } = this.props
 
         const airportsList = airportsWhoMatch.map((item, key) => {
@@ -70,8 +89,9 @@ class AirportAutocomplete extends Component {
 
             return (
                 <li key={key}>
-                    <a onClick={() => this.onSelectAirport(code, name)}>
-                        {name}
+                    <a onClick={() => this.onSelectAirport(code, name)} 
+                        className="hmmAirportAutocompleteOptions__item">
+                        {name} <MapPin className="hmmAirportAutocompleteOptions__item__icon" />
                     </a>
                 </li>
             )
@@ -87,17 +107,17 @@ class AirportAutocomplete extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={11} className="">
+                    <Col xs={10}>
                         {
                             (!showInput)
                                 ? <a className="hmmAirportAutocomplete__form"
                                     onClick={() => this.showInput()}>
                                     <span className="hmmAirportAutocomplete__form__name">
-                                        Belo Horizonte
+                                        {this.formatAirportSelected(0)}
                                     </span>
                                     <span className="hmmAirportAutocomplete__form__code">
-                                        CNF<br />
-                                        Confins
+                                        <b>{selectedAirport[1]}</b><br />
+                                        {this.formatAirportSelected(1)}
                                     </span>
                                 </a>
                                 : <div>
@@ -106,8 +126,8 @@ class AirportAutocomplete extends Component {
                                         value={searchText}
                                         onChange={(event) => this.onChange(event)} />
 
-                                    <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none'}}>
-                                        <ul className="">
+                                    <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none' }}>
+                                        <ul className="hmmAirportAutocompleteOptions">
                                             {airportsList}
                                         </ul>
                                     </div>
@@ -115,8 +135,8 @@ class AirportAutocomplete extends Component {
                         }
                     </Col>
 
-                    <Col xs={1}>
-                        <MapPin size={15} />
+                    <Col xs={2}>
+                        <MapPin className="hmmAirportAutocomplete__icon" />
                     </Col>
                 </Row>
             </div>

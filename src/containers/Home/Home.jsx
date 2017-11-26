@@ -7,56 +7,106 @@ import {
     FlightsList,
     FlightAlert,
     FlightSearch,
-    FlightsFilter
+    Loader,
+    Error,
+    NoFlights
 } from '../../components'
 import { search as searchActions } from '../../actions'
+import { rootRoute } from '../../strings/routes'
 
 class Home extends Component {
-
-    componentDidMount() {
-        this.searchFlights()
+    constructor() {
+        super()
+        this.state = {
+            loading: false,
+            error: false,
+            empty: true,
+            status: "inbound"
+        }
     }
 
-    searchFlights() {
-        const postData = {
-            tripType: "RT",
-            from: "REC",  //origem
-            to: "RIO",  //destino
-            outboundDate: "2017-12-22", //data de partida
-            inboundDate: "2017-12-28", //data de volta
-            cabin: "EC", //classe econômica (EC) ou executiva (EX)
-            adults: 2, //adultos
-            children: 1, //crianças
-            infants: 0 //bebês
+    searchValuesToString(values) {
+        return (
+            Object
+                .values(values)
+                .reduce((previousValue, currentValue) => `${previousValue}/${currentValue}`, '')
+        )
+    }
+
+    searchFlights(postData) {
+        const { createSearch, history } = this.props
+
+        history.push(`${rootRoute}/${this.searchValuesToString(postData)}`)
+
+        this.setState({ loading: true, empty: false }, () => {
+            createSearch(postData)
+                .then(() => {
+                    this.setState({
+                        loading: false
+                    })
+                })
+                .catch(error => {
+                    this.setState({
+                        loading: false,
+                        empty: false,
+                        error: true
+                    })
+                })
+        })
+    }
+
+    selectFlight(status) {
+        this.setState({ status })
+    }
+
+    renderElements() {
+        const { loading, error, empty } = this.state
+
+        if (loading) {
+            return <Loader />
+        }
+        else if (error) {
+            return <Error />
+        }
+        else if (empty) {
+            return <NoFlights />
         }
 
-        const { createSearch } = this.props
-        //createSearch(postData)
+        const { byId, allIds } = this.props
+        return (
+            <div>
+                <FlightSort />
+                <FlightsList
+                    allIds={allIds}
+                    byId={byId} />
+            </div>
+        )
     }
 
     render() {
-        const { byId, allIds } = this.props
+        const { status } = this.state
 
         return (
             <Grid fluid>
-                <FlightSearch />
+                {/*<FlightSearch searchFlights={
+                    (postData) => this.searchFlights(postData)
+                } />*/}
 
-                <FlightTabs />
+                <FlightTabs
+                    status={status}
+                    selectFlight={
+                        (status) => this.selectFlight(status)
+                    } />
 
                 <Row>
                     <Col md={3}>
                         <Row>
                             <FlightAlert />
-                            <FlightsFilter />
                         </Row>
                     </Col>
 
                     <Col md={9}>
-                        <FlightSort />
-
-                        <FlightsList 
-                            allIds={allIds} 
-                            byId={byId} />
+                        {this.renderElements()}
                     </Col>
                 </Row>
             </Grid>

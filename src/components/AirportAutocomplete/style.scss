@@ -1,7 +1,8 @@
 @import '../../assets/styles/partials/_colors';
 
 .hmmAirportAutocomplete {
-    padding: 0 1rem;
+    padding: 0 1rem 1rem;
+    //border-right: solid thin $color-gray;
 
     .hmmAirportAutocomplete__label {
         font-style: italic;
@@ -12,31 +13,59 @@
     .hmmAirportAutocomplete__input {
         border: none;
         outline: none;
+        border-bottom: solid thin rgba($color-gray, 0.5);
+
+        color: $color-gray;
+        font-size: 1.2rem;
     }
 
     .hmmAirportAutocomplete__form {
         display: flex;
+        cursor: pointer;
+        align-items: center;
         
         .hmmAirportAutocomplete__form__name {
             color: $color-primary;
-            font-family: 'Barlow', sans-serif;
             font-weight: 900;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
+            margin-right: 0.9rem;
         }       
 
         .hmmAirportAutocomplete__form__code {
             color: $color-gray;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
+    }
+
+    .hmmAirportAutocomplete__icon {
+        color: $color-primary;
+        width: 1.8rem;
+        height: 1.8rem;
     }
 }
 
 .hmmAirportAutocompleteOptions {
     position: absolute;
+    padding: 0.5rem 0 0;
+
+    list-style: none;
+
+    background-color: $color-white;
+    box-shadow: 4px 4px 13px 1px rgba($color-black, 0.4);
 
     .hmmAirportAutocompleteOptions__item {
         text-align: center;
-        padding: 1rem 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+
+        padding: 2rem 1.2rem;
+
+        display: block;
+        cursor: pointer;
+
+        &:not(:last-child) {
+            border-bottom: solid thin rgba($color-gray, 0.2);
+        }
 
         .hmmAirportAutocompleteOptions__item__icon {
             text-align: right;
@@ -44,6 +73,15 @@
             color: $color-primary;
             width: 1.2rem;
             height: 1.2rem;
+        }
+
+        &:hover {
+            background-color: $color-primary;
+            color: $color-white;
+
+            .hmmAirportAutocompleteOptions__item__icon {
+                color: $color-white;
+            }
         }
     }
 }
