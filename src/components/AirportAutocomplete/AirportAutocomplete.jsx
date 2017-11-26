@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'debounce'
+import { Row, Col } from 'react-flexbox-grid'
+import { MapPin } from 'react-feather'
 import airportsInformations from '../../assets/files/airports'
 import './style.css'
 
@@ -10,15 +12,23 @@ class AirportAutocomplete extends Component {
         super(props)
         this.state = {
             airportsWhoMatch: [],
-            searchText: ''
+            searchText: '',
+            showInput: false
         }
     }
 
     search() {
         const { searchText } = this.state
 
-        const airportsWhoMatch = Object.values(airportsInformations.airports).filter(airport => {
-            return airport[0].toLowerCase().indexOf(searchText) >= 0
+        const airportsValues = Object.values(airportsInformations.airports)
+        const airportsWhoMatch = airportsValues.filter(airport => {
+            return (
+                (airport.length > 0)
+                    ? airport[0]
+                        .toLowerCase()
+                        .indexOf(searchText) >= 0
+                    : false
+            )
         })
 
         this.setState({ airportsWhoMatch })
@@ -42,8 +52,17 @@ class AirportAutocomplete extends Component {
         })
     }
 
+    showInput() {
+        this.setState({ showInput: true })
+    }
+
     render() {
-        const { searchText, airportsWhoMatch } = this.state
+        const { 
+            searchText, 
+            airportsWhoMatch, 
+            showInput 
+        } = this.state
+        const { label } = this.props
 
         const airportsList = airportsWhoMatch.map((item, key) => {
             const name = item[0]
@@ -59,24 +78,55 @@ class AirportAutocomplete extends Component {
         })
 
         return (
-            <div>
-                <input
-                    className=""
-                    value={searchText}
-                    onChange={(event) => this.onChange(event)} />
+            <div className="hmmAirportAutocomplete">
+                <Row>
+                    <Col xs={12}>
+                        <p className="hmmAirportAutocomplete__label">
+                            {label}
+                        </p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={11} className="">
+                        {
+                            (!showInput)
+                                ? <a className="hmmAirportAutocomplete__form"
+                                    onClick={() => this.showInput()}>
+                                    <span className="hmmAirportAutocomplete__form__name">
+                                        Belo Horizonte
+                                    </span>
+                                    <span className="hmmAirportAutocomplete__form__code">
+                                        CNF<br />
+                                        Confins
+                                    </span>
+                                </a>
+                                : <div>
+                                    <input
+                                        className="hmmAirportAutocomplete__input"
+                                        value={searchText}
+                                        onChange={(event) => this.onChange(event)} />
 
-                <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none' }}>
-                    <ul className="">
-                        {airportsList}
-                    </ul>
-                </div>
+                                    <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none'}}>
+                                        <ul className="">
+                                            {airportsList}
+                                        </ul>
+                                    </div>
+                                </div>
+                        }
+                    </Col>
+
+                    <Col xs={1}>
+                        <MapPin size={15} />
+                    </Col>
+                </Row>
             </div>
         )
     }
 }
 
 AirportAutocomplete.propTypes = {
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired
 }
 
 export default AirportAutocomplete

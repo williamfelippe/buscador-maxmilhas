@@ -1,6 +1,7 @@
 import React from 'react'
-import { Grid, Row, Col } from 'react-flexbox-grid'
+import { Row, Col } from 'react-flexbox-grid'
 import { Button } from '../'
+import './style.css'
 
 const options = [
     { text: 'Companhia', value: '', order: 1 },
@@ -9,7 +10,7 @@ const options = [
     { text: 'Chegada', value: '', order: 1 }
 ]
 
-const FlightSort = ({ }) => {
+const FlightSort = () => {
 
     const sortBy = (value, order) => {
 
@@ -27,31 +28,30 @@ const FlightSort = ({ }) => {
     })
 
     return (
-        <section className="hmmFlightSort">
-            <Grid>
-                <Row>
-                    {sortOptions}
+        <section className="hmmHeaders">
+            <Row className="hmmFlightSort">
+                {sortOptions}
 
-                    <Col md={2}>
-                        <div className="hmmFlightSort__item">
-                            Detalhes
-                            <Button 
-                                to={() => console.log('Veja as milhas O.o')}
-                                text="Ver qtd. milhas" 
-                                secondary />
-                        </div>
-                    </Col>
+                <Col md={2}>
+                    <div className="hmmFlightSort__item">
+                        <p>Detalhes</p>
+                        <Button 
+                            buttonClassName="hmmFlightSort__item__button"
+                            to={() => console.log('Veja as milhas O.o')}
+                            text="Ver qtd. milhas" 
+                            secondary />
+                    </div>
+                </Col>
 
-                    <Col md={2}>
-                        <a
-                            className="hmmFlightSort__item"
-                            onClick={() => sortBy('x', 'bolinha')}>
-                            <span>Preço</span>
-                            Por adulto (a incluir taxa)
-                        </a>
-                    </Col>
-                </Row>
-            </Grid>
+                <Col md={2}>
+                    <a
+                        className="hmmFlightSort__item"
+                        onClick={() => sortBy('x', 'bolinha')}>
+                        <p>Preço</p>
+                        Por adulto (a incluir taxa)
+                    </a>
+                </Col>
+            </Row>
         </section>
     )
 }

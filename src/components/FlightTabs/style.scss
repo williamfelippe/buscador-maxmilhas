@@ -1,0 +1,31 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmFlightTabs {
+    text-align: center;
+    
+    align-items: center;
+    margin: 0 -1.6rem 3rem;
+
+    background-color: $color-white;
+    box-shadow: 0px 3px 5px -1px rgba($color-black, 0.2);
+
+    .hmmFlightTabs__item {
+        color: $color-gray;
+        font-family: 'Barlow', sans-serif;
+        font-weight: 900;
+        font-size: 1.9rem;
+
+        border-bottom: medium solid $color-transparent;
+
+        padding: 1.5rem 0;
+
+        display: block;
+        height: 100%;
+
+        cursor: pointer;
+
+        &.hmmFlightTabs__item--active {
+            border-bottom-color: $color-primary
+        }
+    }
+}

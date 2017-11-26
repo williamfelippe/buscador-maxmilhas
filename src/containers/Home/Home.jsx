@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
-import { AirportAutocomplete, Button, FlightSort, FlightItem } from '../../components'
+import {
+    FlightTabs,
+    FlightSort,
+    FlightsList,
+    FlightAlert,
+    FlightSearch,
+    FlightsFilter
+} from '../../components'
 import { search as searchActions } from '../../actions'
 
 class Home extends Component {
@@ -24,107 +31,32 @@ class Home extends Component {
         }
 
         const { createSearch } = this.props
-        createSearch(postData)
-    }
-
-    onSelectCheckoutAirport(airport) {
-        console.log('CHECKOUT AIRPORT', airport)
-    }
-
-    onSelectArriveAirport(airport) {
-        console.log('ARRIVE AIRPORT', airport)
+        //createSearch(postData)
     }
 
     render() {
-
-        const { allIds, byId } = this.props
-        const flightsList = allIds.map((id) => {
-            const flight = byId[id]
-            return (flight) ? <FlightItem key={id} flight={flight} /> : null
-        })
+        const { byId, allIds } = this.props
 
         return (
             <Grid fluid>
-                <Row>
-                    <Col xs={2}>
-                        <AirportAutocomplete
-                            onSelect={(airport) => this.onSelectCheckoutAirport(airport)} />
-                    </Col>
+                <FlightSearch />
 
-                    <Col xs={2}>
-                        <AirportAutocomplete
-                            onSelect={(airport) => this.onSelectArriveAirport(airport)} />
-                    </Col>
-
-                    <Col xs={2}></Col>
-
-                    <Col xs={2}></Col>
-
-                    <Col xs={2}></Col>
-
-                    <Col xs={2}>
-                        <Button text="Pesquisar"
-                            to={() => this.searchFlights()} />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col xs={6}>
-                        <div>
-                            Selecione seu voo de ida
-                        </div>
-                    </Col>
-
-                    <Col xs={6}>
-                        <div>
-                            Selecione seu voo de volta
-                        </div>
-                    </Col>
-                </Row>
+                <FlightTabs />
 
                 <Row>
                     <Col md={3}>
                         <Row>
-                            <Col xs={12}>
-                                {/* Alert */}
-                                <div>
-                                    <div>
-                                        Alerta de preço
-                                    </div>
-
-                                    <p>
-                                        Crie um alerta de Belo Horizonte para Florianópolis. Quando
-                                        o voo estiver no preço cadastrado, enviaremos um alerta para seu e-mail
-                                        e você economiza ainda mais
-                                    </p>
-
-                                    <Button
-                                        text="Criar alerta agora"
-                                        to={() => console.log('Alerta')} />
-                                </div>
-                            </Col>
-
-
-                            <Col xs={12}>
-                                {/* Filter */}
-                                <div>
-                                    <div>
-                                        Filtre seus resultados
-                                    </div>
-
-                                    {/* List of checkboxes */}
-                                </div>
-                            </Col>
+                            <FlightAlert />
+                            <FlightsFilter />
                         </Row>
-
                     </Col>
 
                     <Col md={9}>
                         <FlightSort />
 
-                        <Grid fluid>
-                            {allIds.length > 0 && flightsList}
-                        </Grid>
+                        <FlightsList 
+                            allIds={allIds} 
+                            byId={byId} />
                     </Col>
                 </Row>
             </Grid>

@@ -1,0 +1,18 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmAlert {
+    margin-bottom: 2rem;
+
+    .hmmAlert__content {
+        background-color: $color-white;
+        
+        padding: 1.5rem 2rem;
+
+        font-size: 1.2rem;
+        text-align: center;
+
+        .hmmAlert__content__highlight {
+            font-weight: 700;
+        }
+    }
+}

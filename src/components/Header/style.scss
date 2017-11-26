@@ -2,25 +2,38 @@
 
 .bmmHeader {
     border-bottom: rgba($color-gray, 0.4) solid thin;
-    margin-bottom: 2rem;
+    background-color: $color-white;
+    padding: 1.3rem 1.5rem;
 
     .bmmHeader__logo {
         display: flex;
-        align-self: center;
+        align-items: center;
 
-        padding: 1.3rem 0;
+        .bmmHeader__logo__title {
+            color: $color-gray;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 2.1rem;
+        }
 
-        color: $color-gray;
-        font-weight: 700;
-        font-size: 2.1rem;
+        .bmmHeader__logo__icon {
+            color: $color-primary;
+            margin-right: 1.5rem;
+        }
     }
 
     .bmmHeader__options {
         display: none;
+        font-size: 1.4rem;
+
+        .bmmHeader__options__icon {
+            color: $color-primary;
+            margin-right: 1rem;
+        }
 
         @media screen and (min-width: 4.8rem) {
-            display: block;
-            align-self: center; 
+            align-items: center;
+            display: flex;
         }
     }
 }

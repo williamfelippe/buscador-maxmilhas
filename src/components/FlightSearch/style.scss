@@ -1,0 +1,10 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmFlightSearch {
+    background-color: $color-white;
+    border-bottom: solid thin rgba($color-gray, 0.4);
+
+    margin: 0 -1.6rem;
+    min-height: 6rem;
+    align-items: center;
+}

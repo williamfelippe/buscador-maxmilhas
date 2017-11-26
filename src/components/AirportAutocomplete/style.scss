@@ -1,0 +1,49 @@
+@import '../../assets/styles/partials/_colors';
+
+.hmmAirportAutocomplete {
+    padding: 0 1rem;
+
+    .hmmAirportAutocomplete__label {
+        font-style: italic;
+        font-size: 1.2rem;
+        margin-bottom: 0;
+    }
+
+    .hmmAirportAutocomplete__input {
+        border: none;
+        outline: none;
+    }
+
+    .hmmAirportAutocomplete__form {
+        display: flex;
+        
+        .hmmAirportAutocomplete__form__name {
+            color: $color-primary;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+        }       
+
+        .hmmAirportAutocomplete__form__code {
+            color: $color-gray;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.hmmAirportAutocompleteOptions {
+    position: absolute;
+
+    .hmmAirportAutocompleteOptions__item {
+        text-align: center;
+        padding: 1rem 0;
+
+        .hmmAirportAutocompleteOptions__item__icon {
+            text-align: right;
+
+            color: $color-primary;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+    }
+}

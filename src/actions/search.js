@@ -5,17 +5,14 @@ export const createSearch = (body) => {
     return dispatch => {
         return postSearch(body)
             .then(data => {
-                console.log('CREATE SEARCH', data)
-
                 const { id, airlines } = data
-
                 if (airlines) {
                     const { getFlightsData } = flightsActions
-                    airlines.map(({ label, status }) => {
+                    for(const {label, status} of airlines) {
                         if(status.enable) {
                             dispatch(getFlightsData(id, label))
                         }
-                    })
+                    }
                 }
             })
             .catch(error => {
