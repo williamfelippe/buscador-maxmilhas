@@ -24,7 +24,7 @@ export const createSearch = (body) => {
 export const updateSearch = (searchId, body) => {
     return dispatch => {
         return patchSearch(searchId, body).then(data => {
-            console.log('UPDATE SEARCH', data)
+            return data
         })
     }
 }
@@ -32,7 +32,7 @@ export const updateSearch = (searchId, body) => {
 export const getSearchData = (searchId) => {
     return dispatch => {
         return getSearch(searchId).then(data => {
-            console.log('GET SEARCH', data)
+            return data
         })
     }
 }

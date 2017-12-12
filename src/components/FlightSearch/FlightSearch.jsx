@@ -77,9 +77,9 @@ class FlightSearch extends Component {
             to: to ? to : '',//"RIO",  //destino
             outboundDate: checkoutDate,//"2017-12-22", //data de partida
             inboundDate: arriveDate,//"2017-12-28", //data de volta
-            adults, //adultos
-            children, //crianças
-            infants, //bebês
+            adults: parseInt(adults, 10), //adultos
+            children: parseInt(children, 10), //crianças
+            infants: parseInt(infants, 10), //bebês
             cabin, //classe econômica (EC) ou executiva (EX)
         }
 
@@ -93,6 +93,7 @@ class FlightSearch extends Component {
             <Row className="hmmFlightSearch">
                 <Col xs={2}>
                     <AirportAutocomplete
+                        id="from"
                         label="Sair de"
                         onSelect={
                             (airport) => this.onSelectAirport(airport, 'CHECKOUT')
@@ -101,6 +102,7 @@ class FlightSearch extends Component {
 
                 <Col xs={2}>
                     <AirportAutocomplete
+                        id="to"
                         label="Ir para"
                         onSelect={
                             (airport) => this.onSelectAirport(airport)
@@ -109,6 +111,7 @@ class FlightSearch extends Component {
 
                 <Col xs={2}>
                     <FlightDate
+                        id="outboundDate"
                         label="Ida"
                         onSelect={
                             (date) => this.onSelectDate(date, 'CHECKOUT')
@@ -117,6 +120,7 @@ class FlightSearch extends Component {
 
                 <Col xs={2}>
                     <FlightDate
+                        id="inboundDate"
                         label="Volta"
                         isDateValid={() => this.isArriveDateValid()}
                         checkoutOnly

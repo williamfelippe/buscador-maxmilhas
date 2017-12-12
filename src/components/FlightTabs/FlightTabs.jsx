@@ -8,7 +8,7 @@ const FlightTabs = ({ status, selectFlight }) => {
     return (
         <Row className="hmmFlightTabs">
             <Col xs={6}>
-                <a onClick={() => this.selectFlight('inbound')}
+                <a onClick={() => selectFlight('inbound')}
                     className={`hmmFlightTabs__item ${status === 'inbound'
                         ? 'hmmFlightTabs__item--active'
                         : ''} `
@@ -24,7 +24,7 @@ const FlightTabs = ({ status, selectFlight }) => {
             </Col>
 
             <Col xs={6}>
-                <a onClick={() => this.selectFlight('outbound')}
+                <a onClick={() => selectFlight('outbound')}
                     className={`hmmFlightTabs__item ${status === 'outbound'
                         ? 'hmmFlightTabs__item--active'
                         : ''} `

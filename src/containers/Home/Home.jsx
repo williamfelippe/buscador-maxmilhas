@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import {
+    search as searchActions,
+    formErrors as formErrorsActions,
+    flights as flightsActions
+} from '../../actions'
+import {
     FlightTabs,
     FlightSort,
     FlightsList,
@@ -11,8 +16,7 @@ import {
     Error,
     NoFlights
 } from '../../components'
-import { search as searchActions } from '../../actions'
-import { rootRoute } from '../../strings/routes'
+import Validator from 'validatorjs'
 
 class Home extends Component {
     constructor() {
@@ -34,25 +38,46 @@ class Home extends Component {
     }
 
     searchFlights(postData) {
-        const { createSearch, history } = this.props
+        const { createSearch, removeFlights } = this.props
 
-        history.push(`${rootRoute}/${this.searchValuesToString(postData)}`)
+        if (this.isSearchValid(postData)) {
+            removeFlights()
+            this.setState({ loading: true, empty: false }, () => {
+                createSearch(postData)
+                    .then(() => {
+                        this.setState({
+                            loading: false
+                        })
+                    })
+                    .catch(error => {
+                        this.setState({
+                            loading: false,
+                            empty: false,
+                            error: true
+                        })
+                    })
+            })
+        }
+    }
 
-        this.setState({ loading: true, empty: false }, () => {
-            createSearch(postData)
-                .then(() => {
-                    this.setState({
-                        loading: false
-                    })
-                })
-                .catch(error => {
-                    this.setState({
-                        loading: false,
-                        empty: false,
-                        error: true
-                    })
-                })
-        })
+    isSearchValid(data) {
+        const rules = {
+            from: "required",
+            to: "required",
+            outboundDate: "required",
+            inboundDate: "required"
+        }
+
+        const validation = new Validator(data, rules, { required: 'Campo obrigatório' })
+
+        if (validation.fails()) {
+            const { addFormErrors } = this.props
+            addFormErrors(validation.errors.all())
+
+            return false
+        }
+
+        return true
     }
 
     selectFlight(status) {
@@ -60,7 +85,7 @@ class Home extends Component {
     }
 
     renderElements() {
-        const { loading, error, empty } = this.state
+        const { loading, error, empty, status } = this.state
 
         if (loading) {
             return <Loader />
@@ -72,13 +97,13 @@ class Home extends Component {
             return <NoFlights />
         }
 
-        const { byId, allIds } = this.props
+        const { inboundFlightsById, inboundAllIds, outboundFlightsById, outboundAllIds } = this.props
         return (
             <div>
                 <FlightSort />
                 <FlightsList
-                    allIds={allIds}
-                    byId={byId} />
+                    allIds={(status === "inbound") ? inboundAllIds : outboundAllIds}
+                    byId={(status === "inbound") ? inboundFlightsById : outboundFlightsById} />
             </div>
         )
     }
@@ -88,9 +113,9 @@ class Home extends Component {
 
         return (
             <Grid fluid>
-                {/*<FlightSearch searchFlights={
+                <FlightSearch searchFlights={
                     (postData) => this.searchFlights(postData)
-                } />*/}
+                } />
 
                 <FlightTabs
                     status={status}
@@ -114,13 +139,18 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = ({ inboundFlights, outboundFlights }) => ({
-    byId: inboundFlights.byId,
-    allIds: inboundFlights.allIds
+const mapStateToProps = ({ flights }) => ({
+    inboundFlightsById: flights.inboundFlights.byId,
+    inboundAllIds: flights.inboundAllIds,
+
+    outboundFlightsById: flights.outboundFlights.byId,
+    outboundAllIds: flights.outboundAllIds
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    createSearch: (body) => dispatch(searchActions.createSearch(body))
+    createSearch: (body) => dispatch(searchActions.createSearch(body)),
+    addFormErrors: (errors) => dispatch(formErrorsActions.addFormErrors(errors)),
+    removeFlights: () => dispatch(flightsActions.removeFlights())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

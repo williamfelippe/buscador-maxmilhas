@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Datetime from 'react-datetime'
 import { Row, Col } from 'react-flexbox-grid'
 import { Calendar } from 'react-feather'
 import { formatDate, monthToString } from '../../utils/date'
+import { formErrors as formErrorsActions } from '../../actions'
 import 'react-datetime/css/react-datetime.css'
 import './style.css'
 
@@ -61,7 +63,7 @@ class FlightDate extends Component {
 
     render() {
         const { showInput, selectedDate } = this.state
-        const { label } = this.props
+        const { id, errors, label, removeFormError } = this.props
 
         const { day, month, year } = this.getValuesFromSelectedDate()
 
@@ -94,14 +96,23 @@ class FlightDate extends Component {
                                         </p>
                                     </div>
                                 </a>
-                                : <Datetime
-                                    value={selectedDate}
-                                    isValidDate={this.isValidDate()}
-                                    closeOnSelect
-                                    timeFormat={false}
-                                    onBlur={() => this.hideInput()}
-                                    onChange={(x) => this.onChange(x)}
-                                    inputProps={{ className: 'hmmFlightDate__input' }} />
+                                : <div>
+                                    <Datetime
+                                        value={selectedDate}
+                                        isValidDate={this.isValidDate()}
+                                        closeOnSelect
+                                        timeFormat={false}
+                                        inputProps={{
+                                            onFocus: () => removeFormError(id),
+                                            onBlur: () => this.hideInput(),
+                                            className: 'hmmFlightDate__input'
+                                        }}
+                                        onChange={(value) => this.onChange(value)} />
+                                    <div style={{ display: (errors[id]) ? 'block' : 'none' }}
+                                        className="hmmFlightDate__error">
+                                        {errors[id]}
+                                    </div>
+                                </div>
                         }
                     </Col>
 
@@ -115,10 +126,19 @@ class FlightDate extends Component {
 }
 
 FlightDate.propTypes = {
+    id: PropTypes.string.isRequired,
     onSelect: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     checkoutOnly: PropTypes.bool,
     isDateValid: PropTypes.func,
 }
 
-export default FlightDate
+const mapStateToProps = ({ formErrors }) => ({
+    errors: formErrors.errors
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    removeFormError: (id) => dispatch(formErrorsActions.removeFormError(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlightDate)

@@ -1,7 +1,8 @@
-import inboundFlights from './inboundFlights'
-import outboundFlights from './outboundFlights'
+import flights from './flights'
+import formErrors from './formErrors'
 
 export {
-    inboundFlights,
-    outboundFlights
+    flights,
+    //outboundFlights,
+    formErrors
 }

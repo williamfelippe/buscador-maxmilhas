@@ -64,7 +64,7 @@ const FlightPassengersForm = ({
                         name="children"
                         onChange={onSelectPassengersInformations}
                         value={childrensValue}>
-                        {renderOptions(parseInt(adultsValue + 1, 10))}
+                        {renderOptions(parseInt(adultsValue, 10) + 1)}
                     </select>
                 </Col>
                 <Col xs={6}>
@@ -80,7 +80,7 @@ const FlightPassengersForm = ({
                         name="infants"
                         onChange={onSelectPassengersInformations}
                         value={infantsValue}>
-                        {renderOptions(parseInt(adultsValue + 1, 10))}
+                        {renderOptions(parseInt(adultsValue, 10) + 1)}
                     </select>
                 </Col>
                 <Col xs={6}>

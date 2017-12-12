@@ -12,15 +12,10 @@ const options = [
 
 const FlightSort = () => {
 
-    const sortBy = (value, order) => {
-
-    }
-
     const sortOptions = options.map(({ text, value, order }, key) => {
         return (
             <Col md={2} key={key}>
-                <a onClick={() => sortBy(value, order)}
-                    className="hmmFlightSort__item">
+                <a className="hmmFlightSort__item">
                     <span>{text}</span>
                 </a>
             </Col>
@@ -37,16 +32,14 @@ const FlightSort = () => {
                         <span>Detalhes</span>
                         <Button 
                             buttonClassName="hmmFlightSort__item__button"
-                            to={() => console.log('Veja as milhas O.o')}
+                            to={(event) => event.preventDefault}
                             text="Ver qtd. milhas" 
                             secondary />
                     </div>
                 </Col>
 
                 <Col md={2}>
-                    <a
-                        className="hmmFlightSort__item"
-                        onClick={() => sortBy('x', 'bolinha')}>
+                    <a className="hmmFlightSort__item">
                         <span>Preço</span>
                         <span className="hmmFlightSort__item__hint">
                             Por adulto (a incluir taxa)

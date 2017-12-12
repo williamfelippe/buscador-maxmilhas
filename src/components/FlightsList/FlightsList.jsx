@@ -5,7 +5,7 @@ const FlightsList = ({ allIds, byId }) => {
     const flightsList = allIds.map((id) => {
         const flight = byId[id]
         return (
-            <FlightItem key={id} flight={flight} />
+            (flight) ? <FlightItem key={id} flight={flight} /> : null
         )
     })
 

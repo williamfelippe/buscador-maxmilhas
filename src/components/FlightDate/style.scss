@@ -45,6 +45,18 @@
         }
     }
 
+    .hmmFlightDate__error {
+        background-color: $color-red;
+        
+        color: $color-white;
+        font-size: 1.3rem;
+        text-align: center;
+
+        margin-top: 0.5rem;
+        padding: 1rem;
+        position: absolute;
+    }
+
     .hmmFlightDate__icon {
         color: $color-primary;
         width: 1.8rem;

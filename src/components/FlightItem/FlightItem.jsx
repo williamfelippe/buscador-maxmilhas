@@ -10,12 +10,23 @@ class FlightItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            hasPromotion: false
+            hasPromotion: false,
+            promotionText: ''
         }
     }
 
     showFlightDetail() {
 
+    }
+
+    componentDidMount() {
+        const { pricing, availableIn } = this.props.flight
+        this.setState({ promotionText: this.getPromotion(pricing, availableIn) })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { pricing, availableIn } = nextProps.flight
+        this.setState({ promotionText: this.getPromotion(pricing, availableIn) })
     }
 
     getPrice(pricing, availableIn) {
@@ -58,7 +69,7 @@ class FlightItem extends Component {
                 if (milesTotal < airlineTotal) {
                     this.setState({ hasPromotion: true })
                     return `Economize ${
-                        this.calculatePercentageOfPromotion(milesTotal, airlineTotal)
+                        Math.abs(parseInt(this.calculatePercentageOfPromotion(milesTotal, airlineTotal), 10))
                         }% na Maxmilhas`
                 }
 
@@ -98,7 +109,8 @@ class FlightItem extends Component {
             to
         } = this.props.flight
         const {
-            hasPromotion
+            hasPromotion,
+            promotionText
         } = this.state
 
         return (
@@ -158,7 +170,7 @@ class FlightItem extends Component {
 
                         <span className={`bmmFlightItem__cell__promotion ${hasPromotion
                             ? 'bmmFlightItem__cell__promotion--yellow' : ''}`}>
-                            {this.getPromotion()}
+                            {promotionText}
                         </span>
                     </p>
                 </Col>

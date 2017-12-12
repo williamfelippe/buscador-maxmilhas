@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'debounce'
+import { connect } from 'react-redux'
 import { Row, Col } from 'react-flexbox-grid'
 import { MapPin } from 'react-feather'
+import { formErrors as formErrorsActions } from '../../actions'
+import enhanceWithClickOutside from 'react-click-outside'
 import airportsInformations from '../../assets/files/airports'
 import './style.css'
 
@@ -14,8 +17,13 @@ class AirportAutocomplete extends Component {
             airportsWhoMatch: [],
             searchText: '',
             selectedAirport: [],
-            showInput: true
+            showInput: true,
+            isOpened: false
         }
+    }
+
+    handleClickOutside() {
+        this.setState({ isOpened: false })
     }
 
     search() {
@@ -32,7 +40,10 @@ class AirportAutocomplete extends Component {
             )
         })
 
-        this.setState({ airportsWhoMatch })
+        this.setState({
+            airportsWhoMatch,
+            isOpened: (airportsWhoMatch.length > 0)
+        })
     }
 
     onChange(event) {
@@ -66,7 +77,7 @@ class AirportAutocomplete extends Component {
         const name = selectedAirport[0]
         const names = name.split('-')
 
-        if(names.length >= position) {
+        if (names.length >= position) {
             return names[position]
         }
 
@@ -78,10 +89,16 @@ class AirportAutocomplete extends Component {
             searchText,
             airportsWhoMatch,
             showInput,
-            selectedAirport
+            selectedAirport,
+            isOpened
         } = this.state
 
-        const { label } = this.props
+        const {
+            id,
+            label,
+            errors,
+            removeFormError
+        } = this.props
 
         const airportsList = airportsWhoMatch.map((item, key) => {
             const name = item[0]
@@ -89,7 +106,7 @@ class AirportAutocomplete extends Component {
 
             return (
                 <li key={key}>
-                    <a onClick={() => this.onSelectAirport(code, name)} 
+                    <a onClick={() => this.onSelectAirport(code, name)}
                         className="hmmAirportAutocompleteOptions__item">
                         {name} <MapPin className="hmmAirportAutocompleteOptions__item__icon" />
                     </a>
@@ -124,12 +141,18 @@ class AirportAutocomplete extends Component {
                                     <input
                                         className="hmmAirportAutocomplete__input"
                                         value={searchText}
+                                        onFocus={() => removeFormError(id)}
                                         onChange={(event) => this.onChange(event)} />
 
-                                    <div style={{ display: (airportsWhoMatch.length) ? 'block' : 'none' }}>
+                                    <div style={{ display: (isOpened) ? 'block' : 'none' }}>
                                         <ul className="hmmAirportAutocompleteOptions">
                                             {airportsList}
                                         </ul>
+                                    </div>
+
+                                    <div style={{ display: (errors[id]) ? 'block' : 'none' }}
+                                        className="hmmAirportAutocomplete__error">
+                                        {errors[id]}
                                     </div>
                                 </div>
                         }
@@ -145,8 +168,17 @@ class AirportAutocomplete extends Component {
 }
 
 AirportAutocomplete.propTypes = {
+    id: PropTypes.string.isRequired,
     onSelect: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired
 }
 
-export default AirportAutocomplete
+const mapStateToProps = ({ formErrors }) => ({
+    errors: formErrors.errors
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    removeFormError: (id) => dispatch(formErrorsActions.removeFormError(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(enhanceWithClickOutside(AirportAutocomplete))
